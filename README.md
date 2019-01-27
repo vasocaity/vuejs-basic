@@ -1,5 +1,7 @@
 # vue-cil-default
-
+```
+This project is made for practices vuejs skill
+```
 ## Project setup
 ```
 yarn install

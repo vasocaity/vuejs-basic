@@ -1,20 +1,12 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-    <my-component/>
+      <router-view></router-view>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-import MyComponent from './components/MyComponent.vue'
 export default {
-  name: 'app',
-  components: {
-    HelloWorld,
-    MyComponent
-  }
+  name: 'app'
 }
 </script>
 
@@ -27,4 +19,6 @@ export default {
   color: #2c3e50;
   margin-top: 60px;
 }
+@import '~bootstrap/dist/css/bootstrap.css';
+@import '~bootstrap-vue/dist/bootstrap-vue.css'
 </style>

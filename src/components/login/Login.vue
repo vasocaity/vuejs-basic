@@ -1,55 +1,60 @@
 <template>
-  <div>
-    <b-alert show>Default Alert</b-alert>
-
-    <b-alert variant="success" show>Success Alert</b-alert>
-
-    <b-alert variant="danger"
-             dismissible
-             :show="showDismissibleAlert"
-             @dismissed="showDismissibleAlert=false">
-      Dismissible Alert!
-    </b-alert>
-
-    <b-alert :show="dismissCountDown"
-             dismissible
-             variant="warning"
-             @dismissed="dismissCountDown=0"
-             @dismiss-count-down="countDownChanged">
-      <p>This alert will dismiss after {{dismissCountDown}} seconds...</p>
-      <b-progress variant="warning"
-                  :max="dismissSecs"
-                  :value="dismissCountDown"
-                  height="4px">
-      </b-progress>
-    </b-alert>
-
-    <b-btn @click="showAlert" variant="info" class="m-1">
-      Show alert with count-down timer
-    </b-btn>
-    <b-btn @click="showDismissibleAlert=true" variant="info" class="m-1">
-      Show dismissible alert ({{showDismissibleAlert?'visible':'hidden'}})
-    </b-btn>
-  </div>
+  <b-container>
+    <b-row>
+      <b-col cols="8">
+        <img alt="Vue logo" src="../../assets/logo.png">
+      </b-col>
+      <b-col cols="4">
+        <form-login/>
+      </b-col>
+    </b-row>
+    
+  </b-container>
 </template>
 
 <script>
+import FormLogin from "../form/Form.vue";
 export default {
-  name: 'Login',
-  data () {
+  name: "Login",
+  components: {
+    FormLogin
+  },
+  data() {
     return {
-      dismissSecs: 10,
-      dismissCountDown: 0,
-      showDismissibleAlert: false
-    }
+      form: {
+        email: "",
+        name: "",
+        food: null,
+        checked: []
+      },
+      foods: [
+        { text: "Select One", value: null },
+        "Carrots",
+        "Beans",
+        "Tomatoes",
+        "Corn"
+      ],
+      show: true
+    };
   },
   methods: {
-    countDownChanged (dismissCountDown) {
-      this.dismissCountDown = dismissCountDown
+    onSubmit(evt) {
+      evt.preventDefault();
+      alert(JSON.stringify(this.form));
     },
-    showAlert () {
-      this.dismissCountDown = this.dismissSecs
+    onReset(evt) {
+      evt.preventDefault();
+      /* Reset our form values */
+      this.form.email = "";
+      this.form.name = "";
+      this.form.food = null;
+      this.form.checked = [];
+      /* Trick to reset/clear native browser form validation state */
+      this.show = false;
+      this.$nextTick(() => {
+        this.show = true;
+      });
     }
   }
-}
+};
 </script>

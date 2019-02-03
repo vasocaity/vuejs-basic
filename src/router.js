@@ -8,7 +8,8 @@ import UserSettings from '@/components/user/UserSettings.vue'
 const routes = [
   {
     path: '/',
-    component: MyComponent
+    component: MyComponent,
+    meta: { requiresAuth: true }
   },
   {
     path: '/login',
@@ -19,6 +20,7 @@ const routes = [
     path: '/user',
     component: User,
     name: 'user',
+    meta: { requiresAuth: true },
     // beforeEnter: (to, from, next) => {
     //   // ...
     // },
@@ -32,6 +34,7 @@ const routes = [
   {
     path: '/name-view',
     component: User,
+    meta: { requiresAuth: true },
     children: [
       {
         path: 'profile',
@@ -64,26 +67,35 @@ const routes = [
   }
 ];
 
-export const routerConst = new Router({
+export const router = new Router({
   mode: 'history',
   routes // short for routes: routes
 })
 
 // Global BEFORE hooks:
-routerConst.beforeEach((to, from, next) => {
-  // console.log('Global -- beforeEach - fired')
-  
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (localStorage.getItem('token') == null) {
+      next({
+        path: '/login',
+      });
+    } else {
+      next();
+    }
+  } else {
+    next();
+  }
   // re-route
   if (to.path === '/a') {
     next('/')
-  } 
+  }
   // Abort navigation based on some criteria:
   // else if (to.path === '/user/1') {
   //   next(false)
   // } 
   else if (to.path === '/error') {
     const err = new Error('My Error Message')
-    
+
     // pass the error to onError() callback.
     next(err)
   }

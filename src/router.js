@@ -27,7 +27,7 @@ const routes = [
     children: [
       {
         path: 'post/:post_id',
-        component: User
+        component: User,
       },
     ]
   },
